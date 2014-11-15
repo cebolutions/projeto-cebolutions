@@ -22,12 +22,18 @@ public class ProjetoCebolutions {
     private static Object callableStatement;
 
     public static void main(String[] args) {
-Menulogin();
-
+        Aluno aluno = new Aluno();
+        Menulogin(aluno);
+        
+        
+        System.out.println(aluno.getNome());
+        System.out.println(aluno.getCpf());
+        System.out.println(aluno.isAluno());
+        
         AlunoDAO.iniciarConexao();
-        AlunoDAO.inserirAluno();
+        AlunoDAO.inserirAluno(aluno);
         AlunoDAO.encerraConexao();
-
+ 
         Perguntas p = new Perguntas();
         p.iniciarConexao();
         p.perguntas();
@@ -60,9 +66,13 @@ Menulogin();
                 s.setResp(i, e);
             }
         }
+        RelacaoSatisfacaoPerguntaDAO rsp = new RelacaoSatisfacaoPerguntaDAO();
+        rsp.iniciarConexao();
+        rsp.inserirResp(s.getResp(), aluno.getCpf());
+        rsp.encerraConexao();
     }
 
-    static void Menulogin() {
+    static void Menulogin(Aluno a) {
         Scanner entrada = new Scanner(System.in);
         System.out.println("----- MENU -----");
         System.out.println("");
@@ -72,7 +82,6 @@ Menulogin();
         System.out.print("Digite uma opção: ");
         int x = entrada.nextInt();
         if (x == 1) {
-            Aluno a = new Aluno();
             a.Usuario();
         } else if (x == 2) {
 
