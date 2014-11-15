@@ -5,38 +5,47 @@
  */
 package projetocebolutions;
 
+import java.sql.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Scanner;
 
 /**
  *
- * @author vitor.ccarvalho
+ * @author pc
  */
-public class Perguntas {
-    
+public class testeRel {
+
+    static Scanner sc = new Scanner(System.in);
     static Connection conn;
     static Statement stmt;
-    private String[] perguntas = new String[10];
-    private int i = 0;
-    
-    public void populaVetor(String perg) {
-        perguntas[i] = perg;
-        //System.out.println("Perguntas: " + perguntas[i]);
-        i++;
+    static CallableStatement cs = null;
+
+    public static void main(String[] args) {
+        iniciarConexao();
+        relatorio();
+        encerraConexao();
     }
-    
-    public void perguntas(){
+     public static void relatorio(){
         try {
 
             stmt = conn.createStatement();
-            ResultSet perg = stmt.executeQuery("SELECT * FROM tblPerguntas");
+            ResultSet perg = stmt.executeQuery("SELECT nomeAluno, descricao, descricaoSatisfacao FROM "
+                    + "tblrelacaosatisfacaoperguntas\n" +
+                    "JOIN tblSatisfacao\n" +
+                    "ON satisfacaoId = idsatisfacao\n" +
+                    "JOIN tblPerguntas\n" +
+                    "ON idPergunta = perguntaId\n" +
+                    "JOIN tblAluno\n" +
+                    "ON idAluno = alunoId\n" +
+                    "order by nomeAluno");
 
             while (perg.next()) {
-                String perguntas = perg.getString("descricao");
-                populaVetor(perguntas);
+                String nome = perg.getString("nomeAluno");
+                String pergunta = perg.getString("descricao");
+                String resposta = perg.getString("descricaoSatisfacao");
+                System.out.println(nome+" | " +pergunta+ " | "+ resposta);
             }
 
             stmt.close();
@@ -47,14 +56,7 @@ public class Perguntas {
         }
     }
 
-    
-    public String[] getPerguntas() {
-        return perguntas;
-    }
-    public void imprimePerguntas(int i){
-            System.out.println(perguntas[i]);
-    }
-    public void iniciarConexao() {
+    public static void iniciarConexao() {
         Conexao conexao = new Conexao();
         try {
             conn = conexao.getConexao();
@@ -66,8 +68,9 @@ public class Perguntas {
             System.out.println("VendorError: " + ex.getErrorCode());
         }
     }
-    
-    public void encerraConexao() {
+
+    public static void encerraConexao() {
+        Conexao conexao = new Conexao();
         try {
             conn.close();
             stmt.close();
