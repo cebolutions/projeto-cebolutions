@@ -20,6 +20,8 @@ public class Perguntas {
     static Connection conn;
     static Statement stmt;
     private String[] perguntas = new String[10];
+    private String[][] perguntasMatriz = new String[10][6];
+    
     private int i = 0;
     
     public void populaVetor(String perg) {
@@ -46,10 +48,9 @@ public class Perguntas {
             e.printStackTrace();
         }
     }
-
     
-    public String[] getPerguntas() {
-        return perguntas;
+    public String getPergunta(int i) {
+        return perguntas[i];
     }
     public void imprimePerguntas(int i){
             System.out.println(perguntas[i]);
