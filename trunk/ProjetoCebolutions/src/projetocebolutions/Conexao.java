@@ -29,7 +29,6 @@ public class Conexao {
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver").newInstance();
             conn = DriverManager.getConnection(connectionUrl, "cebolutions", "cebolutions");
-            System.out.println("Conexão obtido com sucesso!");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
