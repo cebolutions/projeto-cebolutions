@@ -24,7 +24,6 @@ public class GrauSatisfacao {
     
     public void populaVetor(String satis) {
         satisfacao[i] = satis;
-        //System.out.println(satisfacao[i]);
         i++;
     }
     

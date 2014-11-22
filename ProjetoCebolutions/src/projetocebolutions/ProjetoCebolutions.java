@@ -24,8 +24,32 @@ public class ProjetoCebolutions {
     public static void main(String[] args) {
         //vitor
         Aluno aluno = new Aluno();
-        Menulogin(aluno);
+        Adm adm = new Adm();
+        Menulogin(aluno, adm);
         
+        
+        
+    }
+
+    static void Menulogin(Aluno a, Adm adm) {
+        Scanner entrada = new Scanner(System.in);
+        System.out.println("----- MENU -----");
+        System.out.println("");
+        System.out.println("1. Usuario");
+        System.out.println("2. ADM");
+        System.out.println("");
+        System.out.print("Digite uma opção: ");
+        int x = entrada.nextInt();
+        if (x == 1) {
+            acessoAluno(a);
+        } else if (x == 2) {
+            acessoAdm(adm);
+        } else {
+            System.out.println("Opção incorreta!");
+        }
+    }
+    static void acessoAluno (Aluno aluno){
+        aluno.Usuario();
         
         System.out.println(aluno.getNome());
         System.out.println(aluno.getCpf());
@@ -72,23 +96,15 @@ public class ProjetoCebolutions {
         rsp.inserirResp(s.getResp(), aluno.getCpf());
         rsp.encerraConexao();
     }
-
-    static void Menulogin(Aluno a) {
+    static void acessoAdm (Adm adm){
         Scanner entrada = new Scanner(System.in);
-        System.out.println("----- MENU -----");
-        System.out.println("");
-        System.out.println("1. Usuario");
-        System.out.println("2. ADM");
-        System.out.println("");
-        System.out.print("Digite uma opção: ");
-        int x = entrada.nextInt();
-        if (x == 1) {
-            a.Usuario();
-        } else if (x == 2) {
-
+        System.out.print("Informe sua senha: ");
+        String senha = entrada.nextLine();
+        boolean validacao = adm.validaPass(senha);
+        if (validacao) {
+            System.out.println("Bem Vindo Sr(a) "+adm.getNome());
         } else {
-            System.out.println("Opção incorreta!");
+            System.out.println("Senha Inválida.");
         }
     }
-    
 }

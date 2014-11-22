@@ -22,14 +22,17 @@ public class testeRel {
     static Connection conn;
     static Statement stmt;
     static CallableStatement cs = null;
-    static String[][] total = new String[10][6];
+    static int[][] total = new int[10][6];
+    static String[] perg = new String[10];
 
     public static void main(String[] args) {
 
         iniciarConexao();
         relatorio();
         encerraConexao();
-        System.out.println("--------------------------------------------");
+        System.out.println("");
+        System.out.println("");
+        System.err.println("--------------------------------------------");
         GrauSatisfacao sat = new GrauSatisfacao();
         sat.iniciarConexao();
         sat.satisfacao();
@@ -38,26 +41,26 @@ public class testeRel {
         Perguntas per = new Perguntas();
         per.iniciarConexao();
         per.perguntas();
+        perg = per.getPerguntas();
         per.encerraConexao();
         for (int j = 0; j < 10; j++) {
-            total[j][0] = per.getPergunta(j);
-            System.out.println(per.getPergunta(j));
+            total[j][0] = j + 1;
         }
         iniciarConexao();
         relatorio2();
         encerraConexao();
 
         for (int j = 0; j < 10; j++) {
-            System.out.println(total[j][0]);
+            System.out.println(perg[j]);
             for (int k = 0; k < 5; k++) {
                 System.out.println(respo[k] + " -> " + total[j][k + 1]);
             }
             System.out.println(" ");
         }
 
+        relatorioPorc(total, respo);
+
     }
-    
-    
 
     public static void relatorio() {
         try {
@@ -88,8 +91,32 @@ public class testeRel {
         }
     }
 
-    public static void populaVetor(int perg, int resp, String satis) {
+    public static void populaVetor(int perg, int resp, int satis) {
         total[perg][resp] = satis;
+    }
+
+    public static void relatorioPorc(int[][] x, String respo[]) {
+
+        for (int i = 0; i < x.length; i++) {
+
+            for (int j = 1; j < 6; j++) {
+                int count = 0;
+                int totalporperg = 0;
+                float resultado = 0;
+                for (int k = 1; k < 6; k++) {
+                    totalporperg += total[i][k];
+                }
+
+                resultado = (float) (total[i][j] * 100) / (totalporperg * 100);
+                System.out.println(totalporperg);
+                System.out.println(total[i][j]);
+                System.out.println(resultado);
+                System.out.println(respo[j - 1]);
+                System.err.println("Pergunta " + j + " -> " + (resultado * 100) + "%");
+
+            }
+
+        }
     }
 
     public static void relatorio2() {
@@ -104,7 +131,7 @@ public class testeRel {
                             + "rel.satisfacaoId = " + k + " and rel.perguntaId = " + j);
 
                     while (perg.next()) {
-                        String tot = perg.getString("total");
+                        int tot = perg.getInt("total");
                         populaVetor(j - 1, k, tot);
                     }
                 }

@@ -20,13 +20,11 @@ public class Perguntas {
     static Connection conn;
     static Statement stmt;
     private String[] perguntas = new String[10];
-    private String[][] perguntasMatriz = new String[10][6];
     
     private int i = 0;
     
     public void populaVetor(String perg) {
         perguntas[i] = perg;
-        //System.out.println("Perguntas: " + perguntas[i]);
         i++;
     }
     
@@ -49,8 +47,8 @@ public class Perguntas {
         }
     }
     
-    public String getPergunta(int i) {
-        return perguntas[i];
+    public String [] getPerguntas() {
+        return perguntas;
     }
     public void imprimePerguntas(int i){
             System.out.println(perguntas[i]);
