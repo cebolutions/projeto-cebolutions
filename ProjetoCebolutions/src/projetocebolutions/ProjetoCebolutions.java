@@ -22,7 +22,6 @@ public class ProjetoCebolutions {
     private static Object callableStatement;
 
     public static void main(String[] args) {
-        //vitor
         Aluno aluno = new Aluno();
         Adm adm = new Adm();
         Menulogin(aluno, adm);
@@ -50,10 +49,10 @@ public class ProjetoCebolutions {
     }
     static void acessoAluno (Aluno aluno){
         aluno.Usuario();
-        
+        System.out.println("Cadastro efetuado com sucesso!");
         System.out.println(aluno.getNome());
         System.out.println(aluno.getCpf());
-        System.out.println(aluno.isAluno());
+        
         
         AlunoDAO.iniciarConexao();
         AlunoDAO.inserirAluno(aluno);
@@ -68,7 +67,7 @@ public class ProjetoCebolutions {
         s.iniciarConexao();
         s.satisfacao();
         s.encerraConexao();
-
+        System.out.println("Por favor responda as perguntas abaixo.");
         for (int i = 0; i < 10; i++) {
             Scanner entrada = new Scanner(System.in);
             short a = 1;
@@ -95,6 +94,7 @@ public class ProjetoCebolutions {
         rsp.iniciarConexao();
         rsp.inserirResp(s.getResp(), aluno.getCpf());
         rsp.encerraConexao();
+        System.out.println("Obrigado por colaborar com a pesquisa.");
     }
     static void acessoAdm (Adm adm){
         Scanner entrada = new Scanner(System.in);
@@ -103,8 +103,40 @@ public class ProjetoCebolutions {
         boolean validacao = adm.validaPass(senha);
         if (validacao) {
             System.out.println("Bem Vindo Sr(a) "+adm.getNome());
+            menuRelatorio();
         } else {
             System.out.println("Senha Inválida.");
+        }
+    }
+    static void menuRelatorio(){
+        Scanner entrada = new Scanner(System.in);
+        System.out.println("Relatórios");
+        System.out.println("1 - Relatório Geral");
+        System.out.println("2 - Relatório quantidade x pergunta");
+        System.out.println("3 - Relatório por índices");
+        System.out.println("0 - Sair do Programa");
+        System.out.print("Informe sua opção: ");
+        int x = entrada.nextInt();
+        Relatorios relatorio = new Relatorios();
+        switch (x){
+            case 1:
+                relatorio.relatorioGeral();
+                menuRelatorio();
+                break;
+            case 2:
+                relatorio.relatorioPorPerg();
+                menuRelatorio();
+                break;
+            case 3:
+                relatorio.relatorioIndicadores();
+                menuRelatorio();
+                break;
+            case 0:
+                System.out.println("Fim Programa!");
+                break;
+            default:
+                System.out.println("Opção inválida!");
+                menuRelatorio();
         }
     }
 }

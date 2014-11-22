@@ -61,7 +61,6 @@ public class GrauSatisfacao {
         try {
             conn = conexao.getConexao();
             stmt = conn.createStatement();
-            System.out.println("Conexão Realizada com sucesso");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
@@ -73,7 +72,6 @@ public class GrauSatisfacao {
         try {
             conn.close();
             stmt.close();
-            System.out.println("Goodbye");
         } catch (SQLException ex) {
             System.out.println("SQLException: " + ex.getMessage());
             System.out.println("SQLState: " + ex.getSQLState());
